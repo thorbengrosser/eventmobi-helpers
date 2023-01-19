@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Attendance Calculator</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.1.0/papaparse.min.js"></script>
+  <style>body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  h1 {
+    text-align: center;
+    margin: 16px;
+  }
+  
+  form {
+    display: flex;
+    justify-content: center;
+    margin: 16px;
+  }
+  
+  input[type="file"] {
+    margin-right: 8px;
+  }
+  
+  table {
+    border-collapse: collapse;
+    margin: 16px auto;
+    width: 80%;
+  }
+  
+  th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  th {
+    background-color: lightgray;
+  }
+  </style>
+</head>
+<body>
+  <h1>Attendance Calculator</h1>
+  <form id="form">
+    <input type="file" id="fileInput" />
+    <button type="submit">Calculate</button>
+  </form>
+  <table id="results">
+    <tr>
+      <th>Email</th>
+      <th>Checkins</th>
+      <th>Checkouts</th>
+      <th>Duration</th>
+    </tr>
+  </table>
+
+  <script>
+    const form = document.getElementById("form");
+    const resultsTable = document.getElementById("results");
+
+    form.addEventListener("submit", event => {
+      event.preventDefault();
+
+      // Get the file input element and the selected file
+      const fileInput = document.getElementById("fileInput");
+      const file = fileInput.files[0];
+
+      // Read the file and process the data
+      const reader = new FileReader();
+      reader.onload = event => {
+        const data = event.target.result;
+
+        // Parse the CSV data using PapaParse
+        const rows = Papa.parse(data).data;
+        rows.shift();  // Remove the header row
+
+// Initialize dictionaries to store the results
+const checkinTimes = {};
+const checkoutTimes = {};
+
+// Process the rows
+rows.forEach(row => {
+  if (row.length < 7) return;  // Skip rows with missing data
+  
+  const timestamp = row[0];
+  const type = row[1];
+  const action = row[3];
+  const email = row[6];
+
+  // Convert the timestamp string to a Date object
+  const date = new Date(timestamp);
+
+  // If the action is "checkin", store the timestamp in a temporary variable
+  if (action === "checkin") {
+    if (email in checkinTimes) {
+      checkinTimes[email].push(date);
+    } else {
+      checkinTimes[email] = [date];
+    }
+  // If the action is "checkout", store the timestamp in a temporary variable
+  } else if (action === "checkout") {
+    if (email in checkoutTimes) {
+      checkoutTimes[email].push(date);
+    } else {
+      checkoutTimes[email] = [date];
+    }
+  }
+});
+
+// Calculate the duration for each email
+const durations = {};
+for (const email in checkinTimes) {
+  if (email in checkoutTimes) {
+    if (checkinTimes[email].length > checkoutTimes[email].length) {
+      // Discard the last checkin if there is no corresponding checkout
+      checkinTimes[email].pop();
+    }
+    if (checkinTimes[email].length === checkoutTimes[email].length) {
+      const duration = checkoutTimes[email].reduce((total, checkoutTime, i) => {
+        const checkinTime = checkinTimes[email][i];
+        return total + (checkoutTime - checkinTime);
+      }, 0);
+      durations[email] = duration;
+    }
+  }
+}
+
+// Clear the existing rows from the results table
+while (resultsTable.rows.length > 1) {
+  resultsTable.deleteRow(1);
+}
+
+// Add the results to the results table
+for (const email in checkinTimes) {
+  const row = resultsTable.insertRow();
+  row.insertCell().textContent = email;
+  row.insertCell().textContent = checkinTimes[email].length;
+  if (email in checkoutTimes) {
+    row.insertCell().textContent = checkoutTimes[email].length;
+    if (checkinTimes[email].length === checkoutTimes[email].length) {
+      const duration = durations[email];
+      const hours = Math.floor(duration / 3600000);
+      const minutes = Math.floor((duration % 3600000) / 60000);
+      row.insertCell().textContent = `${hours} hours, ${minutes} minutes`;
+    } else {
+      row.insertCell().textContent = "Unsure - Data Missing";
+    }
+  } else {
+    row.insertCell().textContent = "0";
+    row.insertCell().textContent = "Unsure - Data Missing";
+  }
+}
+
+      };
+      reader.readAsText(file);
+    });
+  </script>
+</body>
+</html>
+
+

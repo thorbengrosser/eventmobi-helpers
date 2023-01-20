@@ -1,14 +1,35 @@
 # eventmobi-helpers
 This is a collection of different scripts that can help you getting more use from the EventMobi platform. Do not use any of those scripts on live events. Using these scripts is not endorsed by EventMobi. This repository does not contain any official EventMobi code and features. This is meant as a playground for EventMobi power users.
 
-## AddGroupsToSession.py
+Again, this is not an official EventMobi resource and, unless you know what you are doing, this may break your EventMobi setup.
+
+## Available scripts
+
+### AddGroupsToSession.py
 This is a Python script which uses the EventMobi API to add people, who are part of specific groups, to a selected session manually. In order to run the script, simply download it and execute it with 
-
 __python3 AddGroupsToSession.py__ 
-
 and follow the instructions. This code was almost entirely written by ChatGPT and has not gone through any code reviews. Use at your own risk.
 
 Uses the json and requests library.
 
-## checkin.html
+### AddPeopleByEmailsToGroup.py
+This is a Python script which uses the EventMobi API to add people to specific groups by simply providing it with the email addresses of those people. The script will ask for your API key, and then guide you step by step. It will then ask you for a *comma-separated* list of emails, will search for those emails and, if they exist, add them to the group. If an email address is not findable in your people list, it will report those back to you. In order to run the script, simply download it and execute it with 
+__python3 AddPeopleByEmailsToGroup.py__ 
+and follow the instructions. This code was almost entirely written by ChatGPT and has not gone through any code reviews. Use at your own risk.
+
+### checkin.html
 A HTML file with JavaScript that runs locally. You can use it to calculate how long attendees, who checked in and out of your event, were on-site. This is deprecated, if you need these reports, refer to your EventMobi support team.
+
+## System requirements
+Any HTML file will run in modern browsers. Simply download and double click.
+
+The Python scripts need to be run locally on your machine. You need to have Python 3 installed, alongside the libraries "json" and "requests".
+
+- How to install Python on Windows 10: https://www.digitalocean.com/community/tutorials/install-python-windows-10
+- How to install Python on MacOS: https://docs.python-guide.org/starting/install3/osx/
+- How to install Python on Linux: https://docs.python-guide.org/starting/install3/linux/
+
+Once you have Python up and running,  make sure the request module is properly installed.
+- On Windows: python -m pip install requests
+- On Linux: pip install requests
+- On Mac: python3 pip install requests

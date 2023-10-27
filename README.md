@@ -3,6 +3,9 @@ This is a collection of different scripts that can help you getting more use fro
 
 Again, this is not an official EventMobi resource and, unless you know what you are doing, this may break your EventMobi setup.
 
+## DoubleSideMyBadge.py
+Please check the directory for the readme file
+
 ## mass_delete_sessions.py
 
 This Python script allows users to batch delete sessions from an event system using their API. The script takes session IDs from a CSV file, retrieves the associated UUID for each session via the API, and then sends a DELETE request to remove the session. It employs asynchronous programming techniques to enhance speed, especially when processing a large number of sessions.

@@ -4,7 +4,10 @@ This is a collection of different scripts that can help you getting more use fro
 Again, this is not an official EventMobi resource and, unless you know what you are doing, this may break your EventMobi setup.
 
 ## DoubleSideMyBadge.py
-Please check the directory for the readme file
+Makes single-sided badges into butterfly badges. Please check the directory for the readme file
+
+## TurnChatOffForGroups.py
+Turns attendee chat off for people in specific groups. Please check the directory for the readme file
 
 ## mass_delete_sessions.py
 

@@ -3,6 +3,9 @@ This is a collection of different scripts that can help you getting more use fro
 
 Again, this is not an official EventMobi resource and, unless you know what you are doing, this may break your EventMobi setup.
 
+## DeleteSessionsWithGroup.py
+Deletes Sessions from EventMobi events that are part of a specific group.
+
 ## DoubleSideMyBadge.py
 Makes single-sided badges into butterfly badges. Please check the directory for the readme file
 

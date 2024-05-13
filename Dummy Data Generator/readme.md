@@ -20,10 +20,6 @@ Before you can use this tool, you'll need:
 ## Installation
 
 Clone the repository:
-```bash
-git clone https://github.com/yourusername/eventmobi-dummy-data-generator.git
-cd eventmobi-dummy-data-generator
-```
 
 Install the necessary Python packages:
 ```bash
